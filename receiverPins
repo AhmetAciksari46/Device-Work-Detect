@@ -1,0 +1,13 @@
+***nrf24L01 Pin Connection
+
+VCC  -> 3.3V
+GND  -> GND
+CS   -> D9
+CE   -> D10
+MOSI -> 11
+SCK  -> 13
+MISO -> 12
+
+#Use 10uF 25V cap (Between to Nrf VCC and GND Pins)
+
+#Add a led to pin d8 and a buzzer to pin d6 for check communication.
