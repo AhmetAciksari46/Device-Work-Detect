@@ -1,0 +1,58 @@
+#include <SPI.h>                       //nRF24L01 lib
+#include <nRF24L01p.h>                 //nRF24L01 lib
+nRF24L01p receiver(9, 10);             //nRF24L01 lib func CE AND CSN Pins.
+int led = 8;                           // lcd pin
+int buzzer = 6;                        //buzzer pin
+int toneNumber = 3;
+int C = 262;                           //Tone Value.
+int D = 294;
+int E = 330;
+int tones[] = {C, D, E};
+
+void setup() 
+{
+  SPI.begin();
+  SPI.setBitOrder(MSBFIRST);
+  receiver.channel(90);
+  receiver.RXaddress("COMMUNICATION");
+  receiver.init();
+  pinMode(6, OUTPUT);
+  pinMode(8, OUTPUT);
+}
+
+String sensorValue;
+
+void loop() {
+  while (receiver.available())       //while communication continue
+  {
+    receiver.read();                 //read value
+    receiver.rxPL(sensorValue);      //save value to 'sensorValue' veriable.
+    if (sensorValue.length() > 0) 
+    {
+      int x = sensorValue.toInt();   //string value converting to integer.
+      //if any devices is not working, sensor output value between 50-100.
+      if (x < 700)  //if devices is not working, or device work is over
+      {
+        for (int i = 0; i < toneNumber; i++) //play tones
+        {
+          tone(buzzer, tones[i]);
+          delay(300);
+          noTone(buzzer);
+          delay(20);
+        }
+        digitalWrite(8, HIGH); //blink to led
+        delay(300);
+        digitalWrite(8, LOW);
+      }
+      else  //if value bigger than 700. 
+      //When kettle working, device output = 2000-2300
+      //When microwave oven working, device output = 1400-1700
+      //When oven working, device output = 2400-2800
+      {//buzzer and led off.
+        digitalWrite(6, LOW); 
+        digitalWrite(8, HIGH);
+      }
+      sensorValue = ""; // clear to veriable.
+    }
+  }
+}
