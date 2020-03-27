@@ -1,0 +1,24 @@
+***nrf24L01 Pin Connection
+
+VCC  -> 3.3V
+GND  -> GND
+CS   -> D9
+CE   -> D10
+MOSI -> 11
+SCK  -> 13
+MISO -> 12
+
+#Use 10uF 25V cap (Between to Nrf VCC and GND Pins)
+
+
+***Current Sensor
+#See pic. "Current Sensor Connection"
+
+2x10kohm Res.(voltage divider 5V To 2.5V)
+10uF Cap. (ByPass Cap.)
+33ohm Res (For sensor)
+
+#Add a led to pin d13 for check communication.
+
+
+The energy supply of the arduino by 4x1.5V battery.
